@@ -1,1 +1,2 @@
-
+class TLAScraper(object):
+    pass
