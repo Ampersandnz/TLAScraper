@@ -1,10 +1,17 @@
+import urllib
 from abc import ABC, abstractmethod
+from bs4 import BeautifulSoup
 
 
 class Scraper(ABC):
     @abstractmethod
     def scrape(self):
         pass
+
+    def get_page_as_soup(self, url):
+        page = urllib.urlopen(url)
+        soup = BeautifulSoup(page, 'html.parser')
+        return soup
 
     @abstractmethod
     def table_of_contents_url(self):
