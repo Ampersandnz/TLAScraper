@@ -1,4 +1,4 @@
-import urllib
+import urllib.request
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 
@@ -8,8 +8,9 @@ class Scraper(ABC):
     def scrape(self):
         pass
 
-    def get_page_as_soup(self, url):
-        page = urllib.urlopen(url)
+    @staticmethod
+    def get_page_as_soup(url):
+        page = urllib.request.urlopen(url)
         soup = BeautifulSoup(page, 'html.parser')
         return soup
 
