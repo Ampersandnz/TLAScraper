@@ -18,7 +18,6 @@ class Scraper(ABC):
             full_output = full_output + chapter.text
 
         # Build output document
-        print(full_output)
         self.write_to_file(full_output)
 
     def get_chapters(self):
@@ -63,10 +62,11 @@ class Scraper(ABC):
         post = Scraper.get_post_as_soup(chapter.url, post_id)
         content = post.find("div", {"class": "messageContent"})
         text = content.prettify()
+        text = f"<h2>{chapter.title}</h2>" + text
         chapter.set_body_text(text)
 
     def write_to_file(self, text):
-        file = open(self.get_filename(), "w+")
+        file = open(self.get_filename(), mode="w+", encoding='utf-8')
         file.write(text)
         file.close()
 
