@@ -1,6 +1,7 @@
-from Scrapers import TLAScraper, TAFScraper, TLAAScraper
+from Scrapers import *
 
-scrapers = {TLAScraper(), TAFScraper(), TLAAScraper()}
+scrapers = {TLAScraper(), TAFScraper(), TLAAScraper(), PPScraper, NotDScraper, BitPScraper, QScraper, SScraper,
+            STScraper, ULtHScraper}
 
 
 def main():
