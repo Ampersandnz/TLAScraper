@@ -55,7 +55,8 @@ class Scraper(ABC):
     def scrape_chapter_contents(chapter):
         post_id = chapter.get_post_id()
         post = Scraper.get_post_as_soup(chapter.url, post_id)
-        text = post.prettify()
+        content = post.find("div", {"class": "messageContent"})
+        text = content.prettify()
         chapter.set_body_text(text)
 
     @abstractmethod
