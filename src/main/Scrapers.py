@@ -8,12 +8,17 @@ class Scraper(ABC):
     def scrape(self):
         chapters = self.get_chapters()
 
-        # TODO: Multithread this
+        print(f"About to scrape the contents of {len(chapters)} chapters")
+
+        full_output = ""
+
         for chapter in chapters:
             Scraper.scrape_chapter_contents(chapter)
+            full_output = full_output + '\n'
+            full_output = full_output + chapter.text
 
         # Build output document
-        pass
+        print(full_output)
 
     def get_chapters(self):
         soup = self.get_table_of_contents_as_soup()
