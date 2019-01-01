@@ -21,10 +21,11 @@ class TestTLAScraper(unittest.TestCase):
 
     def test_filter_chapters(self):
         soup = self.tla_scraper.get_table_of_contents_as_soup()
-        all_chapters = self.tla_scraper.get_all_links_from_soup(soup)
+        all_links = self.tla_scraper.get_all_links_from_soup(soup)
+        all_chapters = Scraper.links_to_chapters(all_links)
         filtered_chapters = self.tla_scraper.filter_chapters(all_chapters)
         self.assertIsNotNone(filtered_chapters)
-        self.assertEqual(21, len(filtered_chapters))  # TODO
+        self.assertEqual(48, len(filtered_chapters))
 
     def test_get_all_links_not_null(self):
         soup = self.tla_scraper.get_table_of_contents_as_soup()

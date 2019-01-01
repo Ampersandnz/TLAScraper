@@ -65,7 +65,13 @@ class TLAScraper(Scraper):
         pass
 
     def filter_chapters(self, all_chapters):
-        return all_chapters
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Chapter" in chapter.title or "Epilogue" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
 
     def table_of_contents_url(self):
         return self.TOC_URL
