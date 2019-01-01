@@ -6,6 +6,7 @@ from Chapter import Chapter
 
 class Scraper(ABC):
     def scrape(self):
+        print(f"Running scraper {type(self)}")
         chapters = self.get_chapters()
 
         print(f"About to scrape the contents of {len(chapters)} chapters")
