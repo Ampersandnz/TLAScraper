@@ -1,4 +1,5 @@
-from Scraper import Scraper
+class Scraper:
+    pass
 
 
 class TLAScraper(Scraper):
