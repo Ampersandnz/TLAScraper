@@ -8,10 +8,9 @@ class Scraper(ABC):
     def scrape(self):
         chapters = self.get_chapters()
 
+        # TODO: Multithread this
         for chapter in chapters:
-            print(f"{chapter.title} - {chapter.url}")
-            pass
-            # Scrape its contents
+            Scraper.scrape_chapter_contents(chapter)
 
         # Build output document
         pass
@@ -29,8 +28,12 @@ class Scraper(ABC):
         return links
 
     def get_table_of_contents_as_soup(self):
-        full_toc_page = Scraper.get_page_as_soup(self.table_of_contents_url())
-        toc_soup = full_toc_page.find(id=self.table_of_contents_element_id())
+        return Scraper.get_post_as_soup(self.table_of_contents_url(), self.table_of_contents_element_id())
+
+    @staticmethod
+    def get_post_as_soup(url, element_id):
+        full_toc_page = Scraper.get_page_as_soup(url)
+        toc_soup = full_toc_page.find(id=element_id)
         return toc_soup
 
     @staticmethod
@@ -47,6 +50,14 @@ class Scraper(ABC):
             chapters.append(Chapter(link.get_text(), link.get('href')))
 
         return chapters
+
+    @staticmethod
+    def scrape_chapter_contents(chapter):
+        post_id = chapter.get_post_id()
+        post = Scraper.get_post_as_soup(chapter.url, post_id)
+        content = post.find("div", {"class": "messageContent"})
+        text = content.prettify()
+        chapter.set_body_text(text)
 
     @abstractmethod
     def filter_chapters(self, all_chapters):

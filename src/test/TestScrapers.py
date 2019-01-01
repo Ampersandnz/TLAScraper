@@ -1,10 +1,12 @@
 import unittest
 
 from Scrapers import Scraper, TLAScraper
+from Chapter import Chapter
 
 
 class TestScraper(unittest.TestCase):
     GOOGLE_URL = "https://www.google.com/"
+    PROLOGUE_POST = "https://forums.spacebattles.com/threads/the-last-angel.244209/#post-9354450"
 
     def test_links_to_chapters(self):
         soup = Scraper.get_page_as_soup(self.GOOGLE_URL)
@@ -14,6 +16,11 @@ class TestScraper(unittest.TestCase):
 
     def test_get_page_as_soup_not_null(self):
         self.assertIsNotNone(Scraper.get_page_as_soup(self.GOOGLE_URL))
+
+    def test_scrape_chapter_contents(self):
+        chapter = Chapter("Prologue", "https://forums.spacebattles.com/threads/the-last-angel.244209/#post-9354450")
+        Scraper.scrape_chapter_contents(chapter)
+        self.assertIsNotNone(chapter.text)
 
 
 class TestTLAScraper(unittest.TestCase):

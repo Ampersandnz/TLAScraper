@@ -1,9 +1,11 @@
 from Scrapers import TLAScraper
 
+scrapers = {TLAScraper()}
+
 
 def main():
-    scraper = TLAScraper()
-    scraper.scrape()
+    for scraper in scrapers:
+        scraper.scrape()
 
 
 if __name__ == '__main__':
