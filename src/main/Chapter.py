@@ -8,4 +8,10 @@ class Chapter:
         self.text = text
 
     def get_post_id(self):
-        return self.url.split('-')[-1]
+        if "threads" in self.url:
+            return self.url.split('-')[-1]
+        elif "posts" in self.url:
+            return self.url.split('/')[-2]
+        else:
+            print(f"Unparsable url! {self.url}")
+            return None
