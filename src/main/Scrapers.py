@@ -7,20 +7,24 @@ from Chapter import Chapter
 class Scraper(ABC):
     @abstractmethod
     def scrape(self):
-        # Get list of chapters
-        # For each chapter:
+        chapters = self.get_chapters()
+
+        for chapter in chapters:
+            pass
             # Scrape its contents
+
         # Build output document
         pass
 
     def get_chapters(self):
-        all_links = self.get_all_links_from_soup()
+        soup = self.get_table_of_contents_as_soup()
+        all_links = self.get_links_from_soup(soup)
         all_chapters = Scraper.links_to_chapters(all_links)
         filtered_chapters = self.filter_chapters(all_chapters)
         return filtered_chapters
 
     @staticmethod
-    def get_all_links_from_soup(soup):
+    def get_links_from_soup(soup):
         links = soup.find_all('a')
         return links
 
