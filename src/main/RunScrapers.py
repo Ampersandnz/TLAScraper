@@ -1,6 +1,6 @@
-from Scrapers import TLAScraper
+from Scrapers import TLAScraper, TAFScraper, TLAAScraper
 
-scrapers = {TLAScraper()}
+scrapers = {TLAScraper(), TAFScraper(), TLAAScraper()}
 
 
 def main():

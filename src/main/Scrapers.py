@@ -62,7 +62,7 @@ class Scraper(ABC):
         post = Scraper.get_post_as_soup(chapter.url, post_id)
         content = post.find("div", {"class": "messageContent"})
         text = content.prettify()
-        text = f"<h2>{chapter.title}</h2>" + text
+        text = f"<h2>{chapter.title}</h2>\n" + text
         chapter.set_body_text(text)
 
     def write_to_file(self, text):
@@ -97,6 +97,54 @@ class TLAScraper(Scraper):
 
         for chapter in all_chapters:
             if "Chapter" in chapter.title or "Epilogue" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_toc_url(self):
+        return self.TOC_URL
+
+    def get_toc_element_id(self):
+        return self.TOC_ELEMENT_ID
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class TAFScraper(Scraper):
+    TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel.244209/"
+    TOC_ELEMENT_ID = "post-9354450"
+    FILENAME = "The Angel's Fire.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "The Angel's Fire" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_toc_url(self):
+        return self.TOC_URL
+
+    def get_toc_element_id(self):
+        return self.TOC_ELEMENT_ID
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class TLAAScraper(Scraper):
+    TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel-ascension.346640/"
+    TOC_ELEMENT_ID = "post-18058717"
+    FILENAME = "The Last Angel - Ascension.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Chapter" in chapter.title:
                 filtered_chapters.append(chapter)
 
         return filtered_chapters
