@@ -9,7 +9,7 @@ class Scraper(ABC):
         chapters = self.get_chapters()
 
         for chapter in chapters:
-            print(chapter.title + " - " + chapter.url)
+            print(f"{chapter.title} - {chapter.url}")
             pass
             # Scrape its contents
 
