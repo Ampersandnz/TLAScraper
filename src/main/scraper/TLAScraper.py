@@ -1,2 +1,5 @@
-class TLAScraper(object):
+from scraper.Scraper import Scraper
+
+
+class TLAScraper(Scraper):
     pass
