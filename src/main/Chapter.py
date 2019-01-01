@@ -6,3 +6,6 @@ class Chapter:
 
     def set_body_text(self, text):
         self.text = text
+
+    def get_post_id(self):
+        return self.url.split('-')[-1]
