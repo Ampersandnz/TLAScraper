@@ -22,7 +22,7 @@ class Scraper(ABC):
         Scraper.write_to_file(full_output)
 
     def get_chapters(self):
-        soup = self.get_table_of_contents_as_soup()
+        soup = self.get_toc_as_soup()
         all_links = self.get_links_from_soup(soup)
         all_chapters = Scraper.links_to_chapters(all_links)
         filtered_chapters = self.filter_chapters(all_chapters)
@@ -33,8 +33,8 @@ class Scraper(ABC):
         links = soup.find_all('a')
         return links
 
-    def get_table_of_contents_as_soup(self):
-        return Scraper.get_post_as_soup(self.table_of_contents_url(), self.table_of_contents_element_id())
+    def get_toc_as_soup(self):
+        return Scraper.get_post_as_soup(self.get_toc_url(), self.get_toc_element_id())
 
     @staticmethod
     def get_post_as_soup(url, element_id):
@@ -75,11 +75,11 @@ class Scraper(ABC):
         pass
 
     @abstractmethod
-    def table_of_contents_url(self):
+    def get_toc_url(self):
         pass
 
     @abstractmethod
-    def table_of_contents_element_id(self):
+    def get_toc_element_id(self):
         pass
 
     @abstractmethod
@@ -101,10 +101,10 @@ class TLAScraper(Scraper):
 
         return filtered_chapters
 
-    def table_of_contents_url(self):
+    def get_toc_url(self):
         return self.TOC_URL
 
-    def table_of_contents_element_id(self):
+    def get_toc_element_id(self):
         return self.TOC_ELEMENT_ID
 
     def get_filename(self):
