@@ -29,8 +29,12 @@ class Scraper(ABC):
         return links
 
     def get_table_of_contents_as_soup(self):
-        full_toc_page = Scraper.get_page_as_soup(self.table_of_contents_url())
-        toc_soup = full_toc_page.find(id=self.table_of_contents_element_id())
+        return Scraper.get_post_as_soup(self.table_of_contents_url(), self.table_of_contents_element_id())
+
+    @staticmethod
+    def get_post_as_soup(url, element_id):
+        full_toc_page = Scraper.get_page_as_soup(url)
+        toc_soup = full_toc_page.find(id=element_id)
         return toc_soup
 
     @staticmethod
