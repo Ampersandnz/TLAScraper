@@ -1,6 +1,6 @@
 import unittest
 
-from scraper.TLAScraper import TLAScraper
+from TLAScraper import TLAScraper
 
 
 class TestTLAScraper(unittest.TestCase):

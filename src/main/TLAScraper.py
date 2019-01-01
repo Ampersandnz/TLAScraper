@@ -1,4 +1,4 @@
-from scraper.Scraper import Scraper
+from Scraper import Scraper
 
 
 class TLAScraper(Scraper):

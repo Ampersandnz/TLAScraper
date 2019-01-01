@@ -1,4 +1,4 @@
-from scraper.TLAScraper import TLAScraper
+from TLAScraper import TLAScraper
 
 
 def main():
