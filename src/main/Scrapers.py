@@ -5,11 +5,11 @@ from Chapter import Chapter
 
 
 class Scraper(ABC):
-    @abstractmethod
     def scrape(self):
         chapters = self.get_chapters()
 
         for chapter in chapters:
+            print(chapter.title + " - " + chapter.url)
             pass
             # Scrape its contents
 
@@ -64,9 +64,6 @@ class Scraper(ABC):
 class TLAScraper(Scraper):
     TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel.244209/"
     TOC_ELEMENT_ID = "post-9354450"
-
-    def scrape(self):
-        pass
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
