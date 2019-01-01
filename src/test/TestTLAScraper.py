@@ -4,17 +4,20 @@ from Scrapers import TLAScraper
 
 
 class TestTLAScraper(unittest.TestCase):
-    def class_exists(self):
-        scraper = TLAScraper()
-        self.assertIsNotNone(scraper)
+    scraper = TLAScraper()
+    GOOGLE_URL = "https://www.google.com/"
 
-    def has_toc_url(self):
-        scraper = TLAScraper()
-        self.assertIsNotNone(scraper.table_of_contents_url())
+    def test_class_exists(self):
+        self.assertIsNotNone(self.scraper)
 
-    def has_toc_element_id(self):
-        scraper = TLAScraper()
-        self.assertIsNotNone(scraper.table_of_contents_element_id())
+    def test_get_page_not_null(self):
+        self.assertIsNotNone(self.scraper.get_page_as_soup(self.GOOGLE_URL))
+
+    def test_has_toc_url(self):
+        self.assertIsNotNone(self.scraper.table_of_contents_url())
+
+    def test_has_toc_element_id(self):
+        self.assertIsNotNone(self.scraper.table_of_contents_element_id())
 
 
 if __name__ == '__main__':
