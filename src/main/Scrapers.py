@@ -18,10 +18,10 @@ class Scraper(ABC):
             full_output = full_output + chapter.text
 
         # Build output document
-        print(full_output)
+        self.write_to_file(full_output)
 
     def get_chapters(self):
-        soup = self.get_table_of_contents_as_soup()
+        soup = self.get_toc_as_soup()
         all_links = self.get_links_from_soup(soup)
         all_chapters = Scraper.links_to_chapters(all_links)
         filtered_chapters = self.filter_chapters(all_chapters)
@@ -32,8 +32,8 @@ class Scraper(ABC):
         links = soup.find_all('a')
         return links
 
-    def get_table_of_contents_as_soup(self):
-        return Scraper.get_post_as_soup(self.table_of_contents_url(), self.table_of_contents_element_id())
+    def get_toc_as_soup(self):
+        return Scraper.get_post_as_soup(self.get_toc_url(), self.get_toc_element_id())
 
     @staticmethod
     def get_post_as_soup(url, element_id):
@@ -62,24 +62,35 @@ class Scraper(ABC):
         post = Scraper.get_post_as_soup(chapter.url, post_id)
         content = post.find("div", {"class": "messageContent"})
         text = content.prettify()
+        text = f"<h2>{chapter.title}</h2>\n" + text
         chapter.set_body_text(text)
+
+    def write_to_file(self, text):
+        file = open(self.get_filename(), mode="w+", encoding='utf-8')
+        file.write(text)
+        file.close()
 
     @abstractmethod
     def filter_chapters(self, all_chapters):
         pass
 
     @abstractmethod
-    def table_of_contents_url(self):
+    def get_toc_url(self):
         pass
 
     @abstractmethod
-    def table_of_contents_element_id(self):
+    def get_toc_element_id(self):
+        pass
+
+    @abstractmethod
+    def get_filename(self):
         pass
 
 
 class TLAScraper(Scraper):
     TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel.244209/"
     TOC_ELEMENT_ID = "post-9354450"
+    FILENAME = "The Last Angel.html"
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -90,8 +101,145 @@ class TLAScraper(Scraper):
 
         return filtered_chapters
 
-    def table_of_contents_url(self):
+    def get_toc_url(self):
         return self.TOC_URL
 
-    def table_of_contents_element_id(self):
+    def get_toc_element_id(self):
         return self.TOC_ELEMENT_ID
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class TAFScraper(TLAScraper):
+    FILENAME = "The Angel's Fire.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "The Angel's Fire" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class TLAAScraper(Scraper):
+    TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel-ascension.346640/"
+    TOC_ELEMENT_ID = "post-18058717"
+    FILENAME = "The Last Angel - Ascension.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Chapter" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_toc_url(self):
+        return self.TOC_URL
+
+    def get_toc_element_id(self):
+        return self.TOC_ELEMENT_ID
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class PPScraper(TLAAScraper):
+    FILENAME = "Predator, Prey.html"
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class NotDScraper(TLAAScraper):
+    FILENAME = "Names of the Demon.html"
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class BitPScraper(TLAAScraper):
+    FILENAME = "Buried in the Past.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Buried in the Past" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class QScraper(TLAAScraper):
+    FILENAME = "Quiet.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Quiet" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class SScraper(TLAAScraper):
+    FILENAME = "Stillness.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Stillness" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class STScraper(TLAAScraper):
+    FILENAME = "Story Time.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Story Time" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
+
+
+class ULtHScraper(TLAAScraper):
+    FILENAME = "Uneasy Lie the Heads.html"
+
+    def filter_chapters(self, all_chapters):
+        filtered_chapters = []
+
+        for chapter in all_chapters:
+            if "Uneasy Lie the Heads" in chapter.title:
+                filtered_chapters.append(chapter)
+
+        return filtered_chapters
+
+    def get_filename(self):
+        return self.FILENAME
