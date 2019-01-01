@@ -54,12 +54,8 @@ class Scraper(ABC):
     @staticmethod
     def scrape_chapter_contents(chapter):
         post_id = chapter.get_post_id()
-
-        # Load that page + element
-        # text = element.prettify
-
-        text = "test"
-        # Get the text
+        post = Scraper.get_post_as_soup(chapter.url, post_id)
+        text = post.prettify()
         chapter.set_body_text(text)
 
     @abstractmethod
