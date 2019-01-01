@@ -19,6 +19,7 @@ class Scraper(ABC):
 
         # Build output document
         print(full_output)
+        Scraper.write_to_file(full_output)
 
     def get_chapters(self):
         soup = self.get_table_of_contents_as_soup()
@@ -64,6 +65,11 @@ class Scraper(ABC):
         text = content.prettify()
         chapter.set_body_text(text)
 
+    def write_to_file(self, text):
+        file = open(self.get_filename(), "w+")
+        file.write(text)
+        file.close()
+
     @abstractmethod
     def filter_chapters(self, all_chapters):
         pass
@@ -76,10 +82,15 @@ class Scraper(ABC):
     def table_of_contents_element_id(self):
         pass
 
+    @abstractmethod
+    def get_filename(self):
+        pass
+
 
 class TLAScraper(Scraper):
     TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel.244209/"
     TOC_ELEMENT_ID = "post-9354450"
+    FILENAME = "The Last Angel.html"
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -95,3 +106,6 @@ class TLAScraper(Scraper):
 
     def table_of_contents_element_id(self):
         return self.TOC_ELEMENT_ID
+
+    def get_filename(self):
+        return self.FILENAME
