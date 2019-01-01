@@ -1,32 +1,52 @@
 import urllib.request
 from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
+from Chapter import Chapter
 
 
 class Scraper(ABC):
     @abstractmethod
     def scrape(self):
+        # Get list of chapters
+        # For each chapter:
+            # Scrape its contents
+        # Build output document
         pass
 
-    def get_all_links(self):
-        toc_element = self.get_table_of_contents()
-        links = toc_element.find_all('a')
+    def get_chapters(self):
+        all_links = self.get_all_links_from_soup()
+        all_chapters = Scraper.links_to_chapters(all_links)
+        filtered_chapters = self.filter_chapters(all_chapters)
+        return filtered_chapters
+
+    @staticmethod
+    def get_all_links_from_soup(soup):
+        links = soup.find_all('a')
         return links
-
-    @abstractmethod
-    def filter_chapters(self, all_chapters):
-        pass
 
     def get_table_of_contents(self):
         full_toc_page = Scraper.get_page_as_soup(self.table_of_contents_url())
-        toc_element = full_toc_page.find(id=self.table_of_contents_element_id())
-        return toc_element
+        toc_soup = full_toc_page.find(id=self.table_of_contents_element_id())
+        return toc_soup
 
     @staticmethod
     def get_page_as_soup(url):
         page = urllib.request.urlopen(url)
         soup = BeautifulSoup(page, 'html.parser')
         return soup
+
+    @staticmethod
+    def links_to_chapters(links):
+        chapters = []
+
+        for link in links:
+            chapters.append(Chapter(link.get_text(), link.get('href')))
+
+        return chapters
+
+    @abstractmethod
+    def filter_chapters(self, all_chapters):
+        pass
 
     @abstractmethod
     def table_of_contents_url(self):
