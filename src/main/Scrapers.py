@@ -67,9 +67,10 @@ class Scraper(ABC):
         chapter.set_body_text(text)
 
     def write_to_file(self, text):
-        file = open(self.get_filename(), mode="w+", encoding='utf-8')
-        file.write(text)
-        file.close()
+        for filename in self.get_file_names():
+            file = open(filename, mode="w+", encoding='utf-8')
+            file.write(text)
+            file.close()
 
     @abstractmethod
     def filter_chapters(self, all_chapters):
@@ -84,14 +85,14 @@ class Scraper(ABC):
         pass
 
     @abstractmethod
-    def get_filename(self):
+    def get_file_names(self):
         pass
 
 
 class TLAScraper(Scraper):
     TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel.244209/"
     TOC_ELEMENT_ID = "post-9354450"
-    FILENAME = "The Last Angel.html"
+    FILE_NAMES = ["The Last Angel.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -108,12 +109,12 @@ class TLAScraper(Scraper):
     def get_toc_element_id(self):
         return self.TOC_ELEMENT_ID
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class TAFScraper(TLAScraper):
-    FILENAME = "The Angel's Fire.html"
+    FILE_NAMES = ["The Angel's Fire.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -124,14 +125,14 @@ class TAFScraper(TLAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class TLAAScraper(Scraper):
     TOC_URL = "https://forums.spacebattles.com/threads/the-last-angel-ascension.346640/"
     TOC_ELEMENT_ID = "post-18058717"
-    FILENAME = "The Last Angel - Ascension.html"
+    FILE_NAMES = ["The Last Angel - Ascension.html", "Predator, Prey.html", "Names of the Demon.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -148,26 +149,12 @@ class TLAAScraper(Scraper):
     def get_toc_element_id(self):
         return self.TOC_ELEMENT_ID
 
-    def get_filename(self):
-        return self.FILENAME
-
-
-class PPScraper(TLAAScraper):
-    FILENAME = "Predator, Prey.html"
-
-    def get_filename(self):
-        return self.FILENAME
-
-
-class NotDScraper(TLAAScraper):
-    FILENAME = "Names of the Demon.html"
-
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class BitPScraper(TLAAScraper):
-    FILENAME = "Buried in the Past.html"
+    FILE_NAMES = ["Buried in the Past.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -178,12 +165,12 @@ class BitPScraper(TLAAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class QScraper(TLAAScraper):
-    FILENAME = "Quiet.html"
+    FILE_NAMES = ["Quiet.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -194,12 +181,12 @@ class QScraper(TLAAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class SScraper(TLAAScraper):
-    FILENAME = "Stillness.html"
+    FILE_NAMES = ["Stillness.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -210,12 +197,12 @@ class SScraper(TLAAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class STScraper(TLAAScraper):
-    FILENAME = "Story Time.html"
+    FILE_NAMES = ["Story Time.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -226,12 +213,12 @@ class STScraper(TLAAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
 
 
 class ULtHScraper(TLAAScraper):
-    FILENAME = "Uneasy Lie the Heads.html"
+    FILE_NAMES = ["Uneasy Lie the Heads.html"]
 
     def filter_chapters(self, all_chapters):
         filtered_chapters = []
@@ -242,5 +229,5 @@ class ULtHScraper(TLAAScraper):
 
         return filtered_chapters
 
-    def get_filename(self):
-        return self.FILENAME
+    def get_file_names(self):
+        return self.FILE_NAMES
