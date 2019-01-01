@@ -19,7 +19,7 @@ class Scraper(ABC):
 
         # Build output document
         print(full_output)
-        Scraper.write_to_file(full_output)
+        self.write_to_file(full_output)
 
     def get_chapters(self):
         soup = self.get_toc_as_soup()
