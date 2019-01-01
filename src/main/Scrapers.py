@@ -8,6 +8,15 @@ class Scraper(ABC):
     def scrape(self):
         pass
 
+    def get_all_links(self):
+        toc_element = self.get_table_of_contents()
+        links = toc_element.find_all('a')
+        return links
+
+    @abstractmethod
+    def filter_chapters(self, all_chapters):
+        pass
+
     def get_table_of_contents(self):
         full_toc_page = Scraper.get_page_as_soup(self.table_of_contents_url())
         toc_element = full_toc_page.find(id=self.table_of_contents_element_id())
@@ -34,6 +43,9 @@ class TLAScraper(Scraper):
 
     def scrape(self):
         pass
+
+    def filter_chapters(self, all_chapters):
+        return all_chapters
 
     def table_of_contents_url(self):
         return self.TOC_URL
