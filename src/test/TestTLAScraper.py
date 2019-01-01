@@ -13,6 +13,9 @@ class TestTLAScraper(unittest.TestCase):
     def test_get_page_not_null(self):
         self.assertIsNotNone(TLAScraper.get_page_as_soup(self.GOOGLE_URL))
 
+    def test_get_table_of_contents_not_null(self):
+        self.assertIsNotNone(self.scraper.get_table_of_contents())
+
     def test_has_toc_url(self):
         self.assertIsNotNone(self.scraper.table_of_contents_url())
 

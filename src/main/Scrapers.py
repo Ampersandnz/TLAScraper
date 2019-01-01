@@ -8,6 +8,11 @@ class Scraper(ABC):
     def scrape(self):
         pass
 
+    def get_table_of_contents(self):
+        full_toc_page = Scraper.get_page_as_soup(self.table_of_contents_url())
+        toc_element = full_toc_page.find(id=self.table_of_contents_element_id())
+        return toc_element
+
     @staticmethod
     def get_page_as_soup(url):
         page = urllib.request.urlopen(url)
