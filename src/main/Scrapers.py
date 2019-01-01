@@ -8,10 +8,10 @@ class Scraper(ABC):
     def scrape(self):
         chapters = self.get_chapters()
 
+        # TODO: Multithread this
         for chapter in chapters:
             print(f"{chapter.title} - {chapter.url}")
-            pass
-            # Scrape its contents
+            # TODO: Scrape its contents instead
 
         # Build output document
         pass
@@ -47,6 +47,12 @@ class Scraper(ABC):
             chapters.append(Chapter(link.get_text(), link.get('href')))
 
         return chapters
+
+    @staticmethod
+    def scrape_chapter_contents(chapter):
+        # Get the text
+        # chapter.set_body_text(text)
+        pass
 
     @abstractmethod
     def filter_chapters(self, all_chapters):
